@@ -147,6 +147,7 @@ class TrainTestLoopCnn(ModelCnn):
                     accuracies.append(accuracy)
 
                     ck = cohen_kappa_score(tgt_data.cpu().numpy(), output.cpu().numpy().astype(float))
+                    ck = 0 if np.NaN == ck else ck
                     cks.append(ck)
                     f1 = f1_score(tgt_data.cpu().numpy(), output.cpu().numpy().astype(float))
                     f1s.append(f1)
@@ -209,6 +210,7 @@ class TrainTestLoopCnn(ModelCnn):
                     acc_symbol.append(accuracy)
 
                     ck = cohen_kappa_score(tgt_data.cpu().numpy(), output.cpu().numpy().astype(float))
+                    ck = 0 if np.NaN == ck else ck
                     cks_symbol.append(ck)
                     f1 = f1_score(tgt_data.cpu().numpy(), output.cpu().numpy().astype(float))
                     f1s_symbol.append(f1)
@@ -229,9 +231,7 @@ class TrainTestLoopCnn(ModelCnn):
 
         self.losses_dev.append(np.mean(losses))
         self.accuracies_dev.append(np.mean(accuracies))
-        print('cks', cks)
         self.cks_dev.append(np.mean(cks))
-        print('f1s', f1s)
         self.f1s_dev.append(np.mean(f1s))
         print(f'\nValidation mean loss: {np.mean(losses).round(5)}, '
               f'Validation median loss: {np.median(losses).round(5)} \n'
