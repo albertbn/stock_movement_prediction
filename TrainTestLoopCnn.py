@@ -147,7 +147,7 @@ class TrainTestLoopCnn(ModelCnn):
                     accuracies.append(accuracy)
 
                     ck = cohen_kappa_score(tgt_data.cpu().numpy(), output.cpu().numpy().astype(float))
-                    ck = 0 if np.NaN == ck else ck
+                    ck = 0. if np.isnan(ck) else ck
                     cks.append(ck)
                     f1 = f1_score(tgt_data.cpu().numpy(), output.cpu().numpy().astype(float))
                     f1s.append(f1)
@@ -155,8 +155,8 @@ class TrainTestLoopCnn(ModelCnn):
                     if i and not ((i // self.batch_size) % PRINT_MODULO):
                         print(f'Symbol: {symbol}, {k}/{len(symbols)} :: Loss: {round(loss.item(), 5)}, '
                               f'Acc: {round(accuracy, 3)}%, '
-                              f"Cohen's Kappa: {round(ck, 3)}, "
-                              f"F1 score: {round(f1, 3)}, "
+                              f"Cohen's Kappa: {ck}, "
+                              f"F1 score: {f1}, "
                               f'n_samples: {num_samples}')
                     self.optimizer.zero_grad(), loss.backward(), self.optimizer.step()
 
@@ -210,7 +210,7 @@ class TrainTestLoopCnn(ModelCnn):
                     acc_symbol.append(accuracy)
 
                     ck = cohen_kappa_score(tgt_data.cpu().numpy(), output.cpu().numpy().astype(float))
-                    ck = 0 if np.NaN == ck else ck
+                    ck = 0. if np.isnan(ck) else ck
                     cks_symbol.append(ck)
                     f1 = f1_score(tgt_data.cpu().numpy(), output.cpu().numpy().astype(float))
                     f1s_symbol.append(f1)
@@ -218,8 +218,8 @@ class TrainTestLoopCnn(ModelCnn):
                     if i and not ((i // self.batch_size) % 3):
                         print(f'Validation :: Symbol: {symbol}, {k}/{len(symbols)} :: '
                               f'Loss: {round(loss.item(), 5)}, Acc: {round(accuracy, 3)}%, '
-                              f"Cohen's Kappa: {round(ck)}, "
-                              f"F1 score: {round(f1)}, "
+                              f"Cohen's Kappa: {ck}, "
+                              f"F1 score: {f1}, "
                               f'n_samples: {num_samples}')
 
                 self.dev_accuracies[symbol] = np.mean(acc_symbol)
