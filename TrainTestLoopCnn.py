@@ -13,6 +13,7 @@ PRINT_MODULO = 10
 MIN_TRAIN_SAMPLES = 10
 J_DEV_BOOST = .81
 MIN_EPOCH_DEV = 4
+EPS = 1e-10
 
 
 class TrainTestLoopCnn(ModelCnn):
@@ -146,7 +147,7 @@ class TrainTestLoopCnn(ModelCnn):
                     accuracy = ((output == tgt_data).squeeze().sum() / len(output)).cpu().item()
                     accuracies.append(accuracy)
 
-                    ck = cohen_kappa_score(tgt_data.cpu().numpy(), output.cpu().numpy().astype(float))
+                    ck = cohen_kappa_score(tgt_data.cpu().numpy() + EPS, output.cpu().numpy().astype(float) + EPS)
                     cks.append(ck)
                     f1 = f1_score(tgt_data.cpu().numpy(), output.cpu().numpy().astype(float))
                     f1s.append(f1)
@@ -208,7 +209,7 @@ class TrainTestLoopCnn(ModelCnn):
                     # accuracies.append(accuracy)
                     acc_symbol.append(accuracy)
 
-                    ck = cohen_kappa_score(tgt_data.cpu().numpy(), output.cpu().numpy().astype(float))
+                    ck = cohen_kappa_score(tgt_data.cpu().numpy() + EPS, output.cpu().numpy().astype(float) + EPS)
                     cks_symbol.append(ck)
                     f1 = f1_score(tgt_data.cpu().numpy(), output.cpu().numpy().astype(float))
                     f1s_symbol.append(f1)
