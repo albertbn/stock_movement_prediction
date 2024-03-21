@@ -40,6 +40,10 @@ class TrainTestLoopCnn(ModelCnn):
         self.losses_dev: list[float] = []
         self.accuracies_train: list[float] = []
         self.accuracies_dev: list[float] = []
+        self.cks_train: list[float] = []
+        self.cks_dev: list[float] = []
+        self.f1s_train: list[float] = []
+        self.f1s_dev: list[float] = []
 
         print(f'batch: {batch_size}')
 
@@ -163,6 +167,8 @@ class TrainTestLoopCnn(ModelCnn):
             self.validation_loss(epoch+1)
             self.losses_train.append(np.mean(train_losses))
             self.accuracies_train.append(np.mean(accuracies))
+            self.cks_train.append(np.mean(cks))
+            self.f1s_train.append(np.mean(f1s))
             print(f"Epoch {epoch + 1}/{self.epochs} \n"
                   f"Mean training loss: {np.mean(train_losses).round(5)}, "
                   f"Median training loss: {np.median(train_losses).round(5)} \n"
@@ -223,6 +229,8 @@ class TrainTestLoopCnn(ModelCnn):
 
         self.losses_dev.append(np.mean(losses))
         self.accuracies_dev.append(np.mean(accuracies))
+        self.cks_dev.append(np.mean(cks))
+        self.f1s_dev.append(np.mean(f1s))
         print(f'\nValidation mean loss: {np.mean(losses).round(5)}, '
               f'Validation median loss: {np.median(losses).round(5)} \n'
               f'Validation mean accuracy: {np.mean(accuracies).round(3)}%, '
