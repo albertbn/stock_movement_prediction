@@ -13,7 +13,6 @@ PRINT_MODULO = 10
 MIN_TRAIN_SAMPLES = 10
 J_DEV_BOOST = .81
 MIN_EPOCH_DEV = 4
-EPS = 1e-10
 
 
 class TrainTestLoopCnn(ModelCnn):
@@ -147,7 +146,7 @@ class TrainTestLoopCnn(ModelCnn):
                     accuracy = ((output == tgt_data).squeeze().sum() / len(output)).cpu().item()
                     accuracies.append(accuracy)
 
-                    ck = cohen_kappa_score(tgt_data.cpu().numpy() + EPS, output.cpu().numpy().astype(float) + EPS)
+                    ck = cohen_kappa_score(tgt_data.cpu().numpy(), output.cpu().numpy().astype(float))
                     cks.append(ck)
                     f1 = f1_score(tgt_data.cpu().numpy(), output.cpu().numpy().astype(float))
                     f1s.append(f1)
@@ -155,8 +154,8 @@ class TrainTestLoopCnn(ModelCnn):
                     if i and not ((i // self.batch_size) % PRINT_MODULO):
                         print(f'Symbol: {symbol}, {k}/{len(symbols)} :: Loss: {round(loss.item(), 5)}, '
                               f'Acc: {round(accuracy, 3)}%, '
-                              f"Cohen's Kappa: {ck}, "
-                              f"F1 score: {f1}, "
+                              f"Cohen's Kappa: {round(ck, 3)}, "
+                              f"F1 score: {round(f1, 3)}, "
                               f'n_samples: {num_samples}')
                     self.optimizer.zero_grad(), loss.backward(), self.optimizer.step()
 
@@ -175,8 +174,8 @@ class TrainTestLoopCnn(ModelCnn):
                   f"Median training loss: {np.median(train_losses).round(5)} \n"
                   f"Mean training accuracy: {np.mean(accuracies).round(3)}%, "
                   f"Median training accuracy: {np.median(accuracies).round(3)}%\n"
-                  f"Mean training Cohen's Kappa: {np.mean(cks)}\n"
-                  f"Mean training F1 score: {np.mean(f1s)}\n"
+                  f"Mean training Cohen's Kappa: {np.mean(cks).round(3)}\n"
+                  f"Mean training F1 score: {np.mean(f1s).round(3)}\n"
                   )
             print(f'=============\n\n')
 
@@ -209,7 +208,7 @@ class TrainTestLoopCnn(ModelCnn):
                     # accuracies.append(accuracy)
                     acc_symbol.append(accuracy)
 
-                    ck = cohen_kappa_score(tgt_data.cpu().numpy() + EPS, output.cpu().numpy().astype(float) + EPS)
+                    ck = cohen_kappa_score(tgt_data.cpu().numpy(), output.cpu().numpy().astype(float))
                     cks_symbol.append(ck)
                     f1 = f1_score(tgt_data.cpu().numpy(), output.cpu().numpy().astype(float))
                     f1s_symbol.append(f1)
@@ -217,8 +216,8 @@ class TrainTestLoopCnn(ModelCnn):
                     if i and not ((i // self.batch_size) % 3):
                         print(f'Validation :: Symbol: {symbol}, {k}/{len(symbols)} :: '
                               f'Loss: {round(loss.item(), 5)}, Acc: {round(accuracy, 3)}%, '
-                              f"Cohen's Kappa: {ck}, "
-                              f"F1 score: {f1}, "
+                              f"Cohen's Kappa: {round(ck)}, "
+                              f"F1 score: {round(f1)}, "
                               f'n_samples: {num_samples}')
 
                 self.dev_accuracies[symbol] = np.mean(acc_symbol)
@@ -230,14 +229,16 @@ class TrainTestLoopCnn(ModelCnn):
 
         self.losses_dev.append(np.mean(losses))
         self.accuracies_dev.append(np.mean(accuracies))
+        print('cks', cks)
         self.cks_dev.append(np.mean(cks))
+        print('f1s', f1s)
         self.f1s_dev.append(np.mean(f1s))
         print(f'\nValidation mean loss: {np.mean(losses).round(5)}, '
               f'Validation median loss: {np.median(losses).round(5)} \n'
               f'Validation mean accuracy: {np.mean(accuracies).round(3)}%, '
               f'Validation median accuracy: {np.median(accuracies).round(3)}% '
-              f"Validation mean Cohen's Kappa: {np.mean(cks)} "
-              f"Validation mean F1 score: {np.mean(f1s)} "
+              f"Validation mean Cohen's Kappa: {np.mean(cks).round(3)} "
+              f"Validation mean F1 score: {np.mean(f1s).round(3)} "
               )
 
         return np.mean(losses)
