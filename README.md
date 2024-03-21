@@ -1,15 +1,23 @@
 ### How to run the project
 
-For the best result using CNN, run:
+Clone the repository:
+```
+git clone https://github.com/albertbn/stock_movement_prediction.git
+cd stock_movement_prediction
+```
+Install requirements:
 ```
 pip install -r requirements.txt
 ```
+
+For the best result using CNN (Convolutional Neural Network), run:
 ```
 from TrainTestLoopCnn import TrainTestLoopCnn
 
 with TrainPredictCnn() as obj:
     obj.run_train()
 ```
+
 
 This repository is loaded in a Jupyter notebook here, where additional charts and statistics are displayed:
 https://colab.research.google.com/drive/1lulfVf3qYmYmFsWWL7R60amE9wwXXf0l?usp=sharing

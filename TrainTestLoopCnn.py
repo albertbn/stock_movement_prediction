@@ -176,7 +176,7 @@ class TrainTestLoopCnn(ModelCnn):
                   f"Mean training accuracy: {np.mean(accuracies).round(3)}%, "
                   f"Median training accuracy: {np.median(accuracies).round(3)}%\n"
                   f"Mean training Cohen's Kappa: {np.mean(cks).round(3)}\n"
-                  f"Mean training F1 score: {np.mean(f1s).round(3)}\n"
+                  f"Mean training F1 score: {np.mean(f1s).round(3)}"
                   )
             print(f'=============\n\n')
 
@@ -236,9 +236,9 @@ class TrainTestLoopCnn(ModelCnn):
         print(f'\nValidation mean loss: {np.mean(losses).round(5)}, '
               f'Validation median loss: {np.median(losses).round(5)} \n'
               f'Validation mean accuracy: {np.mean(accuracies).round(3)}%, '
-              f'Validation median accuracy: {np.median(accuracies).round(3)}% '
-              f"Validation mean Cohen's Kappa: {np.mean(cks).round(3)} "
-              f"Validation mean F1 score: {np.mean(f1s).round(3)} "
+              f'Validation median accuracy: {np.median(accuracies).round(3)}%\n'
+              f"Validation mean Cohen's Kappa: {np.mean(cks).round(3)}\n"
+              f"Validation mean F1 score: {np.mean(f1s).round(3)}"
               )
 
         return np.mean(losses)
