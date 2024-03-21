@@ -2,6 +2,9 @@
 
 For the best result using CNN, run:
 ```
+pip install -r requirements.txt
+```
+```
 from TrainTestLoopCnn import TrainTestLoopCnn
 
 with TrainPredictCnn() as obj:
@@ -10,6 +13,9 @@ with TrainPredictCnn() as obj:
 
 This repository is loaded in a Jupyter notebook here, where additional charts and statistics are displayed:
 https://colab.research.google.com/drive/1lulfVf3qYmYmFsWWL7R60amE9wwXXf0l?usp=sharing
+
+#### GPU
+The GPU used to run the project is a V100 with regular RAM settings
 
 
 ### Dataset
