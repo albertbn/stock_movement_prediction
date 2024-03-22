@@ -1,7 +1,7 @@
 import numpy as np
 import pandas as pd
-# from ModelCnn import ModelCnn
-from ModelCnnNoTweets import ModelCnnNoTweets as ModelCnn
+from ModelCnn import ModelCnn
+# from ModelCnnNoTweets import ModelCnnNoTweets as ModelCnn
 from Data import COLUMN_SYMBOL_CODE, COLUMN_TEXT_EMBEDDINGS, COLUMN_SYMBOL, COLUMN_DATE, COLUMN_CLOSE
 from torch import tensor, nn, optim, no_grad
 import torch
@@ -13,8 +13,7 @@ PRINT_MODULO = 10
 # MIN_TRAIN_SAMPLES = 77
 MIN_TRAIN_SAMPLES = 10
 J_DEV_BOOST = .81
-# MIN_EPOCH_DEV = 4
-MIN_EPOCH_DEV = 50
+MIN_EPOCH_DEV = 4
 
 
 class TrainTestLoopCnn(ModelCnn):
