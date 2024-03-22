@@ -1,6 +1,7 @@
 import numpy as np
 import pandas as pd
-from ModelCnn import ModelCnn
+# from ModelCnn import ModelCnn
+from ModelCnnNoTweets import ModelCnnNoTweets as ModelCnn
 from Data import COLUMN_SYMBOL_CODE, COLUMN_TEXT_EMBEDDINGS, COLUMN_SYMBOL, COLUMN_DATE, COLUMN_CLOSE
 from torch import tensor, nn, optim, no_grad
 import torch
